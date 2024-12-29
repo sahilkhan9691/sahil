@@ -1,0 +1,43 @@
+format_version: '1.0.0'
+default_step_lib_source: https://github.com/sahilkhan9691/sahil.git
+
+workflows:
+  primary:
+    steps:
+      # Code ko clone karne ke liye
+      - git-clone: {}
+
+      # System update karne ke liye
+      - script:
+          title: Update System
+          inputs:
+            - content: | 
+                # Updating system packages
+                sudo apt-get update
+
+      # Required Python packages install karne ke liye
+      - script:
+          title: Install Python Packages
+          inputs:
+            - content: |
+                # Install required Python packages
+                pip install telebot flask pymongo aiohttp psutil python-telegram-bot
+                python3 -m pip install --upgrade pip
+                python3 -m pip install telebot pymongo aiohttp
+
+      # Files ko executable banane ke liye
+      - script:
+          title: Make Files Executable
+          inputs:
+            - content: |
+                # Make all files executable
+                chmod +x * 
+                chmod +x sharp  # Ensure BGMI executable permissions
+                
+      # Python script ko run karne ke liye
+      - script:
+          title: Start sharp.py
+          inputs:
+            - content: |
+                echo "Starting sharp.py..."
+                python3 sharp.py  # Assuming sharp.py is your main script
